@@ -25,6 +25,7 @@ public class CategoryRepository {
     public LiveData<List<Category>> getAllCategories() {
         return allCategories;
     }
+    public Category getCategoryByName(String categoryName){ return categoryDao.getCategoryByName(categoryName);} //TODO in another thread
 
 
     public void insert(Category category) {

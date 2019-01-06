@@ -8,13 +8,14 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 @Dao
-public interface StudyDao {
-    @Query("SELECT * FROM studies")
-    LiveData<List<Study>> getAllStudies();
+public interface GradeDao {
+
+    @Query("SELECT * FROM grades")
+    LiveData<List<Grade>> getAllGrades();
 
     @Insert
-    void insert(Study study);
+    void insert(Grade grade);
 
-    @Query("DELETE FROM studies")
+    @Query("DELETE FROM grades")
     void deleteAll();
 }

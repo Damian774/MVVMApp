@@ -2,36 +2,38 @@ package pl.pwsz.studentsindex.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "categories",indices = {@Index(value = {"name"},
+        unique = true)})
 public class Category {
 
-    public Category(String categoryName) {
-        this.categoryName = categoryName;
+    public Category(String name) {
+        this.name = name;
     }
 
     @PrimaryKey(autoGenerate = true)
-    private int category_id;
+    private int id;
 
 
-    @ColumnInfo(name = "category_name")
-    private String categoryName;
+    @ColumnInfo(name = "name")
+    private String name;
 
 
-    public int getCategory_id() {
-        return category_id;
+    public int getId() {
+        return id;
     }
 
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String categoryName) {
+        this.name = categoryName;
     }
 }
