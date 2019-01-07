@@ -18,7 +18,7 @@
         <activity
             android:name=".views.AddStudyActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".views.AddGradeActivity"></activity>
+        <activity android:name=".views.AddGradeActivity" />
         <activity android:name=".views.AddCategoryActivity" />
         <activity
             android:name=".views.HomeScreenActivity"
@@ -31,8 +31,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:name=".views.GradeListActivity"
+            android:label="@string/title_grade_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".views.GradeDetailActivity"
+            android:label="@string/title_grade_detail"
+            android:parentActivityName=".views.GradeListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.pwsz.studentsindex.views.GradeListActivity" />
+        </activity>
     </application>
 
 </manifest>

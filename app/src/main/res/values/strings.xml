@@ -88,4 +88,6 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="error_no_categories_added_text">Add category first</string>
+    <string name="title_grade_list">Grades</string>
+    <string name="title_grade_detail">Grade Detail</string>
 </resources>
