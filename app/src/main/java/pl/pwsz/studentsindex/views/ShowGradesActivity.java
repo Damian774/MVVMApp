@@ -1,9 +1,11 @@
 package pl.pwsz.studentsindex.views;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,10 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import pl.pwsz.studentsindex.R;
 
-import pl.pwsz.studentsindex.views.dummy.DummyContent;
+import pl.pwsz.studentsindex.model.Grade;
+import pl.pwsz.studentsindex.viewmodels.ShowGradesActivityViewModel;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,19 +33,36 @@ import java.util.List;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-//TODO tutaj pobierz dane z modelu->bazy
-public class GradeListActivity extends AppCompatActivity {
+
+public class ShowGradesActivity extends AppCompatActivity {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
+    ShowGradesActivityViewModel showGradesActivityViewModel;
+    RecyclerView recyclerView;
+    SimpleItemRecyclerViewAdapter simpleItemRecyclerViewAdapter;
+    List<Grade> gradeList;
+    int choosenGradeId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grade_list);
+
+        showGradesActivityViewModel = ViewModelProviders.of(this).get(ShowGradesActivityViewModel.class);
+        showGradesActivityViewModel.getAllGrades().observe(this, new Observer<List<Grade>>() {
+            @Override
+            public void onChanged(@Nullable List<Grade> grades) {
+                Collections.reverse(grades);
+                gradeList = grades;
+                updateRecyclerView();
+
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,28 +85,33 @@ public class GradeListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        View recyclerView = findViewById(R.id.grade_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        recyclerView = findViewById(R.id.grade_list);
+        if(gradeList!=null)simpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(this,gradeList,mTwoPane);
+        if(recyclerView != null) recyclerView.setAdapter(simpleItemRecyclerViewAdapter);
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
+
+    public void updateRecyclerView() {
+        simpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(this,gradeList,mTwoPane);
+        if(recyclerView != null) recyclerView.setAdapter(simpleItemRecyclerViewAdapter);
     }
 
-    public static class SimpleItemRecyclerViewAdapter
+
+    public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final GradeListActivity mParentActivity;
-        private final List<DummyContent.DummyItem> mValues;
+
+        private final ShowGradesActivity mParentActivity;
+        private final List<Grade> grades;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
+                Grade item = (Grade) view.getTag();
+                choosenGradeId = item.getId();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(GradeDetailFragment.ARG_ITEM_ID, item.id);
+                    arguments.putInt(GradeDetailFragment.ARG_ITEM_ID,choosenGradeId);
                     GradeDetailFragment fragment = new GradeDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -93,17 +120,17 @@ public class GradeListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, GradeDetailActivity.class);
-                    intent.putExtra(GradeDetailFragment.ARG_ITEM_ID, item.id);
+                    intent.putExtra(GradeDetailFragment.ARG_ITEM_ID, choosenGradeId);
 
                     context.startActivity(intent);
                 }
             }
         };
 
-        SimpleItemRecyclerViewAdapter(GradeListActivity parent,
-                                      List<DummyContent.DummyItem> items,
+        SimpleItemRecyclerViewAdapter(ShowGradesActivity parent,
+                                      List<Grade> gradeList,
                                       boolean twoPane) {
-            mValues = items;
+            grades = gradeList;
             mParentActivity = parent;
             mTwoPane = twoPane;
         }
@@ -117,16 +144,16 @@ public class GradeListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.mIdView.setText(grades.get(position).getValue().toString());
+            holder.mContentView.setText( grades.get(position).getWeight().toString());
 
-            holder.itemView.setTag(mValues.get(position));
+            holder.itemView.setTag(grades.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
         }
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return grades==null ? 0 : grades.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

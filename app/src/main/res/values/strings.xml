@@ -90,4 +90,5 @@
     <string name="error_no_categories_added_text">Add category first</string>
     <string name="title_grade_list">Grades</string>
     <string name="title_grade_detail">Grade Detail</string>
+    <string name="grade_details_bar_title">Grade details</string>
 </resources>

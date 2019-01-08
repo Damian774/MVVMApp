@@ -16,6 +16,9 @@ public interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Category category);
 
+    @Query("SELECT * FROM categories WHERE id LIKE :categoryId LIMIT 1")
+    Category getCategoryById(int categoryId);
+
     @Query("SELECT * FROM categories WHERE name LIKE :categoryName LIMIT 1")
     Category getCategoryByName(String categoryName);
 

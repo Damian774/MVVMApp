@@ -26,6 +26,7 @@ public class CategoryRepository {
         return allCategories;
     }
     public Category getCategoryByName(String categoryName){ return categoryDao.getCategoryByName(categoryName);} //TODO in another thread
+    public Category getCategoryById(int categoryId){ return categoryDao.getCategoryById(categoryId);} //TODO in another thread
 
 
     public void insert(Category category) {

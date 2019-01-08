@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"> <!-- suppress google indexing warning -->
+
         <activity
             android:name=".views.SelectStudiesActivity"
             android:label="@string/app_name"
@@ -31,17 +32,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.GradeListActivity"
+            android:name=".views.ShowGradesActivity"
             android:label="@string/title_grade_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".views.GradeDetailActivity"
             android:label="@string/title_grade_detail"
-            android:parentActivityName=".views.GradeListActivity"
+            android:parentActivityName=".views.ShowGradesActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="pl.pwsz.studentsindex.views.GradeListActivity" />
+                android:value="pl.pwsz.studentsindex.views.ShowGradesActivity" />
         </activity>
     </application>
 

@@ -113,7 +113,6 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         categoryPicked = parent.getItemAtPosition(position).toString();
-        Log.d("w onitemselected",categoryPicked);
     }
 
     @Override

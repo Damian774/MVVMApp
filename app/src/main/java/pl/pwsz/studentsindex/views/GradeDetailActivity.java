@@ -1,7 +1,10 @@
 package pl.pwsz.studentsindex.views;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
@@ -11,20 +14,31 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import java.util.Collections;
+import java.util.List;
+
 import pl.pwsz.studentsindex.R;
+import pl.pwsz.studentsindex.model.Grade;
+import pl.pwsz.studentsindex.viewmodels.GradeDetailActivityViewModel;
+import pl.pwsz.studentsindex.viewmodels.ShowGradesActivityViewModel;
 
 /**
  * An activity representing a single Grade detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link GradeListActivity}.
+ * in a {@link ShowGradesActivity}.
  */
 public class GradeDetailActivity extends AppCompatActivity {
+
+    GradeDetailActivityViewModel gradeDetailActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grade_detail);
+
+        gradeDetailActivityViewModel = ViewModelProviders.of(this).get(GradeDetailActivityViewModel.class);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
@@ -56,8 +70,7 @@ public class GradeDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(GradeDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(GradeDetailFragment.ARG_ITEM_ID));
+            arguments.putInt(GradeDetailFragment.ARG_ITEM_ID,getIntent().getIntExtra(GradeDetailFragment.ARG_ITEM_ID,0));
             GradeDetailFragment fragment = new GradeDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -77,7 +90,7 @@ public class GradeDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, GradeListActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, ShowGradesActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

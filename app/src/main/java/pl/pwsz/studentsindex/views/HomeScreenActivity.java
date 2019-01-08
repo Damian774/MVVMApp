@@ -83,18 +83,19 @@ public class HomeScreenActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_grades) {
+        if (id == R.id.nav_add_grade) {
             startActivity(new Intent(HomeScreenActivity.this, AddGradeActivity.class));
-        } else if (id == R.id.nav_categories) {
+        } else if (id == R.id.nav_add_category) {
             startActivity(new Intent(HomeScreenActivity.this, AddCategoryActivity.class));
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_add_study) {
             startActivity(new Intent(HomeScreenActivity.this, AddStudyActivity.class));
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_show_grades) {
+            startActivity(new Intent(HomeScreenActivity.this, ShowGradesActivity.class));
 
         } else if (id == R.id.nav_settings) {
 
-        } else if (id == R.id.nav_studies) {
+        } else if (id == R.id.nav_show_studies) {
             startActivity(new Intent(HomeScreenActivity.this, SelectStudiesActivity.class));
 
         }
