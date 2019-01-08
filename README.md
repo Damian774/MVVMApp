@@ -7,7 +7,7 @@ Working Insert statements called from UI actions
 Created relations with categories-grades
 Working master-detail view with grades
 
-====
+=====
 MIT LICENSE
 =====
 
