@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"> <!-- suppress google indexing warning -->
+
         <activity
             android:name=".views.SelectStudiesActivity"
             android:label="@string/app_name"
@@ -18,7 +19,7 @@
         <activity
             android:name=".views.AddStudyActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".views.AddGradeActivity"></activity>
+        <activity android:name=".views.AddGradeActivity" />
         <activity android:name=".views.AddCategoryActivity" />
         <activity
             android:name=".views.HomeScreenActivity"
@@ -31,8 +32,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:name=".views.ShowGradesActivity"
+            android:label="@string/title_grade_list"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".views.GradeDetailActivity"
+            android:label="@string/title_grade_detail"
+            android:parentActivityName=".views.ShowGradesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.pwsz.studentsindex.views.ShowGradesActivity" />
+        </activity>
     </application>
 
 </manifest>

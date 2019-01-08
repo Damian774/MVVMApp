@@ -27,6 +27,7 @@ public class GradeRepository {
         return allGrades;
     }
 
+    public Grade getGradeById(int gradeId){ return gradeDao.getGradeById(gradeId);} //TODO in another thread
 
     public void insert(Grade grade) {
         new GradeRepository.insertGradeAsyncTask(gradeDao).execute(grade);
