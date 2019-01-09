@@ -21,6 +21,16 @@ public class GradeDetailActivityViewModel extends AndroidViewModel {
 
     private LiveData<List<Category>> allCategories;
 
+    private Grade pickedGrade;
+
+    public Grade getPickedGrade() {
+        return pickedGrade;
+    }
+
+    public void setPickedGrade(Grade pickedGrade) {
+        this.pickedGrade = pickedGrade;
+    }
+
     public GradeDetailActivityViewModel(Application application) {
         super(application);
         gradeRepository = new GradeRepository(application);

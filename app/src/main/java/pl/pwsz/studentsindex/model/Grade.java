@@ -7,6 +7,7 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import pl.pwsz.studentsindex.utils.BigDecimalConverter;
@@ -22,7 +23,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         @Index(name = "category_id_index", value = {"category_id"})
 })
 @TypeConverters(BigDecimalConverter.class)
-public class Grade {
+public class Grade implements Serializable {
 
     public Grade(int categoryId, BigDecimal value, BigDecimal weight, String additionalNote) {
         this.categoryId = categoryId;

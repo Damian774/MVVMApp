@@ -35,6 +35,7 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
     Spinner spinner;
     String categoryPicked;
     int categoryId;
+    Grade pickedGrade;
 
 
 
@@ -42,6 +43,14 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_grade);
+
+         spinner = findViewById(R.id.spinner_categories);
+
+        if( getIntent().getExtras() != null){
+            Intent myIntent = getIntent();
+            pickedGrade = (Grade)myIntent.getSerializableExtra("Grade");
+        }
+
 
         addGradeActivityViewModel = ViewModelProviders.of(this).get(AddGradeActivityViewModel.class);
         addGradeActivityViewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
@@ -51,6 +60,7 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
             }
         });
 
+
         gradeValueET = findViewById(R.id.et_grade_value);
         gradeNoteET = findViewById(R.id.et_grade_note);
         gradeWeightET = findViewById(R.id.et_grade_weight);
@@ -59,14 +69,23 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
                                             @Override
                                             public void onClick(View view) {
 //TODO change it to number picker
+                                                BigDecimal value = BigDecimal.valueOf(Double.parseDouble(gradeValueET.getText().toString()));
+                                                BigDecimal weight = BigDecimal.valueOf(Double.parseDouble(gradeWeightET.getText().toString()));
+                                                String note = gradeNoteET.getText().toString();
+                                                categoryId = addGradeActivityViewModel.getCategoryByName(categoryPicked).getId();
 
-
-                                                        categoryId = addGradeActivityViewModel.getCategoryByName(categoryPicked).getId();
-                                                        BigDecimal value = BigDecimal.valueOf(Double.parseDouble(gradeValueET.getText().toString()));
-                                                        BigDecimal weight = BigDecimal.valueOf(Double.parseDouble(gradeWeightET.getText().toString()));
-                                                        String note = gradeNoteET.getText().toString();
+                                                    if(pickedGrade!=null){
+                                                        pickedGrade.setValue(value);
+                                                        pickedGrade.setWeight(weight);
+                                                        pickedGrade.setCategoryId(categoryId);
+                                                        pickedGrade.setAdditionalNote(note);
+                                                        addGradeActivityViewModel.update(pickedGrade);
+                                                    }else{
                                                         Grade grade = new Grade(categoryId, value, weight, note);
                                                         addGradeActivityViewModel.insert(grade);
+                                                    }
+
+
 
                                                 startActivity(new Intent(AddGradeActivity.this, HomeScreenActivity.class));
 
@@ -75,12 +94,11 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
                                         });
 
 
-        final Spinner spinner = findViewById(R.id.spinner_categories);
         if (spinner != null) {
             spinner.setOnItemSelectedListener(this);
         }
 
-        final ArrayList<String> categoryStrings = new ArrayList<>();
+        ArrayList<String> categoryStrings = new ArrayList<>();
         categoryStrings.add("Add category first");
 
 
@@ -93,12 +111,23 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
             spinner.setAdapter(adapter);
         }
         adapter.add(categoryStrings.get(0));
+        if(pickedGrade!=null) {
+            gradeValueET.setText(pickedGrade.getValue().toString());
+            gradeWeightET.setText(pickedGrade.getWeight().toString());
+            gradeNoteET.setText(pickedGrade.getAdditionalNote());
+
+        }
+
+
 
     }
 
-    public static void updateSpinner(ArrayAdapter<String> arrayAdapter, List<Category> categories){
+
+
+    public void updateSpinner(ArrayAdapter<String> arrayAdapter, List<Category> categories){
         arrayAdapter.clear();
         List<String> categoryStrings = new ArrayList<>();
+
         if (categories!=null) {
             for(int i = 0; i < categories.size(); i++){
                 categoryStrings.add(categories.get(i).getName());
@@ -108,7 +137,12 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
             arrayAdapter.add(categoryName);
         }
         adapter.notifyDataSetChanged();
+        spinner.setSelection(adapter.getPosition(addGradeActivityViewModel.getCategoryById(pickedGrade.getCategoryId()).getName()));
+
+
     }
+
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

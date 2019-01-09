@@ -33,11 +33,14 @@ public class AddGradeActivityViewModel extends AndroidViewModel {
 
     }
 
-    public LiveData<List<Grade>> getAllGrades() {
-        return allGrades;
-    }
+    public LiveData<List<Grade>> getAllGrades() { return allGrades; }
+
+    public Category getCategoryById(int categoryId){return categoryRepository.getCategoryById(categoryId);}
 
     public void insert(Grade grade) { gradeRepository.insert(grade);}
+
+    public void update(Grade grade) { gradeRepository.update(grade);}
+
 
     public LiveData<List<Category>> getAllCategories() {
         return allCategories;

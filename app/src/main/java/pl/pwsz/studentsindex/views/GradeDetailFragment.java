@@ -75,6 +75,7 @@ public class GradeDetailFragment extends Fragment {
         // Show the dummy content as text in a TextView.
         loadData();
         if (grade != null) {
+            gradeDetailActivityViewModel.setPickedGrade(grade);
             StringBuilder detailInfo = new StringBuilder();
             detailInfo.append(grade.getValue().toString())
                     .append(", weight: ")
