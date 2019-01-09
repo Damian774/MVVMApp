@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +12,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
+
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import pl.pwsz.studentsindex.R;
@@ -24,6 +29,8 @@ import pl.pwsz.studentsindex.viewmodels.ShowGradesActivityViewModel;
 
 import java.util.Collections;
 import java.util.List;
+
+import static pl.pwsz.studentsindex.views.AddGradeActivity.adapter;
 
 /**
  * An activity representing a list of Grades. This activity
@@ -46,6 +53,7 @@ public class ShowGradesActivity extends AppCompatActivity {
     SimpleItemRecyclerViewAdapter simpleItemRecyclerViewAdapter;
     List<Grade> gradeList;
     int choosenGradeId;
+    ListView listView;
 
 
     @Override
@@ -53,6 +61,7 @@ public class ShowGradesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grade_list);
 
+        listView = findViewById(R.id.list_view);
         showGradesActivityViewModel = ViewModelProviders.of(this).get(ShowGradesActivityViewModel.class);
         showGradesActivityViewModel.getAllGrades().observe(this, new Observer<List<Grade>>() {
             @Override
@@ -60,6 +69,7 @@ public class ShowGradesActivity extends AppCompatActivity {
                 Collections.reverse(grades);
                 gradeList = grades;
                 updateRecyclerView();
+                listView.invalidateViews();
 
             }
         });
@@ -88,8 +98,36 @@ public class ShowGradesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.grade_list);
         if(gradeList!=null)simpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(this,gradeList,mTwoPane);
         if(recyclerView != null) recyclerView.setAdapter(simpleItemRecyclerViewAdapter);
-    }
 
+        ItemTouchHelper helper = new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(0,
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView,
+                                          RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                         int direction) {
+                        int position = viewHolder.getAdapterPosition();
+
+                       Grade grade = simpleItemRecyclerViewAdapter.getGradeAtPosition(position);
+                        Toast.makeText(ShowGradesActivity.this, "Deleting ", Toast.LENGTH_LONG).show();
+
+                        // Delete the word
+                     showGradesActivityViewModel.deleteGrade(grade);
+                     simpleItemRecyclerViewAdapter.notifyDataSetChanged();
+                     updateRecyclerView();
+                     listView.invalidateViews();
+                    }
+                });
+
+        helper.attachToRecyclerView(recyclerView);
+
+    }
 
     public void updateRecyclerView() {
         simpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(this,gradeList,mTwoPane);
@@ -127,12 +165,17 @@ public class ShowGradesActivity extends AppCompatActivity {
             }
         };
 
+
         SimpleItemRecyclerViewAdapter(ShowGradesActivity parent,
                                       List<Grade> gradeList,
                                       boolean twoPane) {
             grades = gradeList;
             mParentActivity = parent;
             mTwoPane = twoPane;
+        }
+
+        public Grade getGradeAtPosition(int position){
+            return grades.get(position);
         }
 
         @Override
@@ -167,4 +210,7 @@ public class ShowGradesActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
 }

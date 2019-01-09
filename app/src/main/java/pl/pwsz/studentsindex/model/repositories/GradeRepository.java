@@ -42,6 +42,26 @@ public class GradeRepository {
 
     }
 
+    public void deleteGrade(Grade grade){
+        new GradeRepository.deleteGradeAsyncTask(gradeDao).execute(grade);
+
+    }
+
+    private static class deleteGradeAsyncTask extends AsyncTask<Grade, Void, Void> {
+
+        private GradeDao asyncTaskGradeDao;
+
+        deleteGradeAsyncTask(GradeDao dao) {
+            asyncTaskGradeDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Grade... grades) {
+            asyncTaskGradeDao.deleteGrade(grades[0]);
+
+            return null;
+        }
+    }
 
     private static class insertGradeAsyncTask extends AsyncTask<Grade, Void, Void> {
 

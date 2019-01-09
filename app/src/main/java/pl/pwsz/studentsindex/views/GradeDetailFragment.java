@@ -2,11 +2,9 @@ package pl.pwsz.studentsindex.views;
 
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 import pl.pwsz.studentsindex.R;
 import pl.pwsz.studentsindex.model.Grade;
 import pl.pwsz.studentsindex.viewmodels.GradeDetailActivityViewModel;
-import pl.pwsz.studentsindex.views.dummy.DummyContent;
 
 /**
  * A fragment representing a single Grade detail screen.

@@ -7,6 +7,11 @@
     android:fitsSystemWindows="true"
     tools:context=".views.ShowGradesActivity">
 
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -20,6 +25,8 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
+
 
     <FrameLayout
         android:id="@+id/frameLayout"

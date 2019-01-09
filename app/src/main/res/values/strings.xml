@@ -91,4 +91,6 @@
     <string name="title_grade_list">Grades</string>
     <string name="title_grade_detail">Grade Detail</string>
     <string name="grade_details_bar_title">Grade details</string>
+    <string name="menu_grade_delete">Delete</string>
+    <string name="menu_grade_edit">Edit</string>
 </resources>
