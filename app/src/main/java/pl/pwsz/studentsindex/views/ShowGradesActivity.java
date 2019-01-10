@@ -4,33 +4,30 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
-
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import pl.pwsz.studentsindex.R;
-
-import pl.pwsz.studentsindex.model.Grade;
-import pl.pwsz.studentsindex.viewmodels.ShowGradesActivityViewModel;
-
 import java.util.Collections;
 import java.util.List;
 
-import static pl.pwsz.studentsindex.views.AddGradeActivity.adapter;
+import pl.pwsz.studentsindex.R;
+import pl.pwsz.studentsindex.model.Grade;
+import pl.pwsz.studentsindex.viewmodels.ShowGradesActivityViewModel;
 
 /**
  * An activity representing a list of Grades. This activity
@@ -52,7 +49,7 @@ public class ShowGradesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     SimpleItemRecyclerViewAdapter simpleItemRecyclerViewAdapter;
     List<Grade> gradeList;
-    int choosenGradeId;
+    int pickedGradeId;
     ListView listView;
 
 
@@ -96,8 +93,9 @@ public class ShowGradesActivity extends AppCompatActivity {
         }
 
         recyclerView = findViewById(R.id.grade_list);
-        if(gradeList!=null)simpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(this,gradeList,mTwoPane);
-        if(recyclerView != null) recyclerView.setAdapter(simpleItemRecyclerViewAdapter);
+        if (gradeList != null)
+            simpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(this, gradeList, mTwoPane);
+        if (recyclerView != null) recyclerView.setAdapter(simpleItemRecyclerViewAdapter);
 
         ItemTouchHelper helper = new ItemTouchHelper(
                 new ItemTouchHelper.SimpleCallback(0,
@@ -114,24 +112,41 @@ public class ShowGradesActivity extends AppCompatActivity {
                                          int direction) {
                         int position = viewHolder.getAdapterPosition();
 
-                       Grade grade = simpleItemRecyclerViewAdapter.getGradeAtPosition(position);
-                        Toast.makeText(ShowGradesActivity.this, "Deleting ", Toast.LENGTH_LONG).show();
+                        Grade grade = simpleItemRecyclerViewAdapter.getGradeAtPosition(position);
+                        Toast.makeText(ShowGradesActivity.this, "Grade deleted", Toast.LENGTH_LONG).show();
 
-                        // Delete the word
-                     showGradesActivityViewModel.deleteGrade(grade);
-                     simpleItemRecyclerViewAdapter.notifyDataSetChanged();
-                     updateRecyclerView();
-                     listView.invalidateViews();
+
+                        showGradesActivityViewModel.deleteGrade(grade);
+                        simpleItemRecyclerViewAdapter.notifyDataSetChanged();
+                        updateRecyclerView();
+                        listView.invalidateViews();
                     }
                 });
 
         helper.attachToRecyclerView(recyclerView);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        registerForContextMenu(listView);
+
 
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle("Select The Action");
+        menu.add(0, v.getId(), 0, "Call");
+        menu.add(0, v.getId(), 0, "Send SMS");
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        return super.onContextItemSelected(item);
+    }
+
+
     public void updateRecyclerView() {
-        simpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(this,gradeList,mTwoPane);
-        if(recyclerView != null) recyclerView.setAdapter(simpleItemRecyclerViewAdapter);
+        simpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(this, gradeList, mTwoPane);
+        if (recyclerView != null) recyclerView.setAdapter(simpleItemRecyclerViewAdapter);
     }
 
 
@@ -146,10 +161,10 @@ public class ShowGradesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Grade item = (Grade) view.getTag();
-                choosenGradeId = item.getId();
+                pickedGradeId = item.getId();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putInt(GradeDetailFragment.ARG_ITEM_ID,choosenGradeId);
+                    arguments.putInt(GradeDetailFragment.ARG_ITEM_ID, pickedGradeId);
                     GradeDetailFragment fragment = new GradeDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -158,7 +173,7 @@ public class ShowGradesActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, GradeDetailActivity.class);
-                    intent.putExtra(GradeDetailFragment.ARG_ITEM_ID, choosenGradeId);
+                    intent.putExtra(GradeDetailFragment.ARG_ITEM_ID, pickedGradeId);
 
                     context.startActivity(intent);
                 }
@@ -174,7 +189,7 @@ public class ShowGradesActivity extends AppCompatActivity {
             mTwoPane = twoPane;
         }
 
-        public Grade getGradeAtPosition(int position){
+        public Grade getGradeAtPosition(int position) {
             return grades.get(position);
         }
 
@@ -188,7 +203,7 @@ public class ShowGradesActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mIdView.setText(grades.get(position).getValue().toString());
-            holder.mContentView.setText( grades.get(position).getWeight().toString());
+            holder.mContentView.setText(grades.get(position).getWeight().toString());
 
             holder.itemView.setTag(grades.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
@@ -196,7 +211,7 @@ public class ShowGradesActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return grades==null ? 0 : grades.size();
+            return grades == null ? 0 : grades.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -210,7 +225,6 @@ public class ShowGradesActivity extends AppCompatActivity {
             }
         }
     }
-
 
 
 }
