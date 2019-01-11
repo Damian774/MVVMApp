@@ -26,4 +26,6 @@ public class CreateStudyViewModel extends AndroidViewModel {
     }
 
     public void insert(Study study) { studyRepository.insert(study); }
+
+    public void update(Study study){studyRepository.update(study);}
 }

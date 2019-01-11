@@ -15,30 +15,46 @@ import pl.pwsz.studentsindex.viewmodels.CreateStudyViewModel;
 
 public class AddStudyActivity extends AppCompatActivity {
 
-    EditText schoolName;
-    EditText schoolYear;
+    EditText schoolNameET;
+    EditText schoolYearET;
     Button button;
     CreateStudyViewModel createStudyViewModel;
+    Study pickedStudy;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_study);
 
-        schoolName = findViewById(R.id.et_school_name);
-        schoolYear = findViewById(R.id.et_school_year);
+
+
+        schoolNameET = findViewById(R.id.et_school_name);
+        schoolYearET = findViewById(R.id.et_school_year);
         button = findViewById(R.id.button_save_study);
+
+        if( getIntent().getExtras() != null){
+            Intent myIntent = getIntent();
+            pickedStudy = (Study) myIntent.getSerializableExtra("Study");
+            schoolNameET.setText(pickedStudy.getSchoolName());
+            schoolYearET.setText(String.valueOf(pickedStudy.getYear()));
+        }
 
         createStudyViewModel = ViewModelProviders.of(this).get(CreateStudyViewModel.class);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Study study = new Study(schoolName.getText().toString(), schoolYear.getText().toString());
-                createStudyViewModel.insert(study);
+                if(pickedStudy!=null){
+                    pickedStudy.setSchoolName(schoolNameET.getText().toString());
+                    pickedStudy.setYear(schoolYearET.getText().toString());
+                    createStudyViewModel.update(pickedStudy);
+                }else {
+                    Study study = new Study(schoolNameET.getText().toString(), schoolYearET.getText().toString());
+                    createStudyViewModel.insert(study);
 
-
+                }
                 startActivity(new Intent(AddStudyActivity.this, SelectStudiesActivity.class));
+
             }
         });
     }

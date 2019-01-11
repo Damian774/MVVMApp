@@ -125,22 +125,8 @@ public class ShowGradesActivity extends AppCompatActivity {
 
         helper.attachToRecyclerView(recyclerView);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        registerForContextMenu(listView);
 
 
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        menu.setHeaderTitle("Select The Action");
-        menu.add(0, v.getId(), 0, "Call");
-        menu.add(0, v.getId(), 0, "Send SMS");
-        super.onCreateContextMenu(menu, v, menuInfo);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        return super.onContextItemSelected(item);
     }
 
 

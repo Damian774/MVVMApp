@@ -32,6 +32,25 @@ public class StudyRepository {
             new insertStudyAsyncTask(studyDao).execute(study);
         }
 
+        public void update(Study study){new updateStudyAsyncTask(studyDao).execute(study);}
+
+    public void deleteStudy(Study study){studyDao.deleteStudy(study);}
+
+
+    private static class updateStudyAsyncTask extends AsyncTask<Study, Void, Void> {
+
+        private StudyDao asyncTaskStudyDao;
+
+        updateStudyAsyncTask(StudyDao dao) {
+            asyncTaskStudyDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Study... studies) {
+            asyncTaskStudyDao.update(studies[0]);
+            return null;
+        }
+    }
 
         private static class insertStudyAsyncTask extends AsyncTask<Study, Void, Void> {
 

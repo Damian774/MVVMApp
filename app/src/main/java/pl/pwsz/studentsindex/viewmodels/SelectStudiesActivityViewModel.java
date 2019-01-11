@@ -28,4 +28,6 @@ public class SelectStudiesActivityViewModel extends AndroidViewModel {
     }
 
     public void insert(Study study) { studyRepository.insert(study); }
+
+    public void deleteStudy(Study study) { studyRepository.deleteStudy(study); }
 }
