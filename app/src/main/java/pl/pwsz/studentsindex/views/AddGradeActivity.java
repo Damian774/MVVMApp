@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.math.BigDecimal;
@@ -37,7 +38,7 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
     String categoryPicked;
     int categoryId;
     Grade pickedGrade;
-
+    TextView categoryListEmptyTV;
 
 
     @Override
@@ -62,7 +63,7 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
             }
         });
 
-
+        categoryListEmptyTV = findViewById(R.id.et_category_list_empty);
         gradeValueET = findViewById(R.id.et_grade_value);
         gradeNoteET = findViewById(R.id.et_grade_note);
         gradeWeightET = findViewById(R.id.et_grade_weight);
@@ -70,7 +71,6 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
         saveGradeBTN.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-//TODO change it to number picker
                                                 BigDecimal value = BigDecimal.valueOf(Double.parseDouble(gradeValueET.getText().toString()));
                                                 BigDecimal weight = BigDecimal.valueOf(Double.parseDouble(gradeWeightET.getText().toString()));
                                                 String note = gradeNoteET.getText().toString();
@@ -101,8 +101,7 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
         }
 
         ArrayList<String> categoryStrings = new ArrayList<>();
-        categoryStrings.add("Add category first");
-
+        categoryStrings.add("");
 
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line,
@@ -130,16 +129,33 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
         arrayAdapter.clear();
         List<String> categoryStrings = new ArrayList<>();
 
-        if (categories!=null) {
+        if (categories!=null && categories.size()>0) {
+
+            spinner.setVisibility(View.VISIBLE);
+            saveGradeBTN.setVisibility(View.VISIBLE);
+            gradeValueET.setVisibility(View.VISIBLE);
+            gradeWeightET.setVisibility(View.VISIBLE);
+            gradeNoteET.setVisibility(View.VISIBLE);
+            categoryListEmptyTV.setVisibility(View.GONE);
+
             for(int i = 0; i < categories.size(); i++){
                 categoryStrings.add(categories.get(i).getName());
             }
+        }else{
+            spinner.setVisibility(View.INVISIBLE);
+            saveGradeBTN.setVisibility(View.INVISIBLE);
+            gradeValueET.setVisibility(View.INVISIBLE);
+            gradeWeightET.setVisibility(View.INVISIBLE);
+            gradeNoteET.setVisibility(View.INVISIBLE);
+            categoryListEmptyTV.setVisibility(View.VISIBLE);
         }
         for (String categoryName : categoryStrings){
             arrayAdapter.add(categoryName);
         }
         adapter.notifyDataSetChanged();
-        spinner.setSelection(adapter.getPosition(addGradeActivityViewModel.getCategoryById(pickedGrade.getCategoryId()).getName()));
+        if (pickedGrade != null) {
+            spinner.setSelection(adapter.getPosition(addGradeActivityViewModel.getCategoryById(pickedGrade.getCategoryId()).getName()));
+        }
 
 
     }
