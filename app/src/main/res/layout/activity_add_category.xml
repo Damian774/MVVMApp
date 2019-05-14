@@ -18,7 +18,12 @@
         android:text="Add category"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_category_name" />
+        app:layout_constraintTop_toBottomOf="@+id/et_category_name"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"/>
 
     <EditText
         android:id="@+id/et_category_name"

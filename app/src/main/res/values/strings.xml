@@ -8,12 +8,12 @@
         <item>Mobile</item>
         <item>Other</item>
     </string-array>
-    <string name="title_activity_home_screen">HomeScreenActivity</string>
+    <string name="title_activity_home_screen">Main screen</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_title">Student\'s index</string>
+    <string name="nav_header_subtitle">Damian Krzyżaniak</string>
+    <string name="nav_header_desc">Author</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
@@ -93,4 +93,8 @@
     <string name="grade_details_bar_title">Grade details</string>
     <string name="menu_grade_delete">Delete</string>
     <string name="menu_grade_edit">Edit</string>
+    <string name="title_activity_add_grade">Add grade</string>
+    <string name="title_activity_select_studies">Your studies</string>
+    <string name="title_activity_add_study">Add study</string>
+    <string name="title_activity_add_category">Add category</string>
 </resources>

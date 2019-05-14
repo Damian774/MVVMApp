@@ -6,24 +6,24 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_add_grade"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_border_color_black_24dp"
             android:title="Add grade" />
         <item
             android:id="@+id/nav_add_category"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_dehaze_black_24dp"
             android:title="Add category" />
         <item
             android:id="@+id/nav_add_study"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_school_black_24dp"
             android:title="Add study" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="TODO" />
+
+            android:title="" />
     </group>
     <group></group>
 
-    <item android:title="Options">
+    <item android:title="Manage">
         <menu>
             <item
                 android:id="@+id/nav_show_grades"
@@ -35,8 +35,7 @@
                 android:title="My studies" />
             <item
                 android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Settings//todo" />
+                android:title="" />
 
         </menu>
     </item>

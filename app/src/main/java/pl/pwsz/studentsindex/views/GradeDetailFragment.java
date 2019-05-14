@@ -74,10 +74,11 @@ public class GradeDetailFragment extends Fragment {
         if (grade != null) {
             gradeDetailActivityViewModel.setPickedGrade(grade);
             StringBuilder detailInfo = new StringBuilder();
-            detailInfo.append(grade.getValue().toString())
-                    .append(", weight: ")
+            detailInfo.append("value: ")
+                    .append(grade.getValue().toString())
+                    .append("\nweight: ")
                     .append(grade.getWeight())
-                    .append(", category: ")
+                    .append("\ncategory: ")
                     .append(gradeDetailActivityViewModel.getCategoryById(grade.getCategoryId()).getName());
             ((TextView) rootView.findViewById(R.id.grade_detail)).setText(detailInfo);
         }

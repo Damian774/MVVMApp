@@ -89,7 +89,7 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
 
 
 
-                                                startActivity(new Intent(AddGradeActivity.this, HomeScreenActivity.class));
+                                                startActivity(new Intent(AddGradeActivity.this, ShowGradesActivity.class));
 
 
                                             }
@@ -130,7 +130,6 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
         List<String> categoryStrings = new ArrayList<>();
 
         if (categories!=null && categories.size()>0) {
-
             spinner.setVisibility(View.VISIBLE);
             saveGradeBTN.setVisibility(View.VISIBLE);
             gradeValueET.setVisibility(View.VISIBLE);
@@ -138,6 +137,7 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
             gradeNoteET.setVisibility(View.VISIBLE);
             categoryListEmptyTV.setVisibility(View.GONE);
 
+            categoryStrings.add("Select category");
             for(int i = 0; i < categories.size(); i++){
                 categoryStrings.add(categories.get(i).getName());
             }
@@ -169,6 +169,5 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }
