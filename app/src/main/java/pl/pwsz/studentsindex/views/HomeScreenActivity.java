@@ -107,6 +107,10 @@ public class HomeScreenActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_show_studies) {
             startActivity(new Intent(HomeScreenActivity.this, SelectStudiesActivity.class));
+        } else if (id == R.id.nav_add_note) {
+            startActivity(new Intent(HomeScreenActivity.this, AddNoteActivity.class));
+        } else if (id == R.id.nav_show_notes) {
+            startActivity(new Intent(HomeScreenActivity.this, ShowNotesActivity.class));
 
         }
 

@@ -6,4 +6,6 @@
     <string name="title_activity_select_studies">Your studies</string>
     <string name="title_activity_add_study">Add study</string>
     <string name="title_activity_add_category">Add category</string>
+    <string name="title_notes_list">Your notes</string>
+    <string name="title_note_detail">Note details</string>
 </resources>
