@@ -2,4 +2,8 @@
 <resources>
     <string name="grade_details_bar_title">Grade details</string>
     <string name="menu_grade_edit">Edit</string>
+    <string name="title_activity_add_grade">Add grade</string>
+    <string name="title_activity_select_studies">Your studies</string>
+    <string name="title_activity_add_study">Add study</string>
+    <string name="title_activity_add_category">Add category</string>
 </resources>
