@@ -78,6 +78,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.pwsz.studentsindex.views.ShowGradesActivity" />
         </activity>
+
+        <activity android:name=".views.AddNoteActivity" />
+
+
+        <activity
+            android:name=".views.ShowNotesActivity"
+            android:label="@string/title_notes_list"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".views.NoteDetailActivity"
+            android:label="@string/title_note_detail"
+            android:parentActivityName=".views.ShowNotesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.pwsz.studentsindex.views.ShowNotesActivity" />
+        </activity>
     </application>
 
 </manifest>

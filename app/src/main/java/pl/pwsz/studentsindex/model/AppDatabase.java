@@ -5,14 +5,16 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-@Database(entities = {Study.class,Category.class,Grade.class}, version = 3, exportSchema = false)
+@Database(entities = {Study.class,Category.class,Grade.class,Note.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;
     private StudyDao StudyDao;
     private CategoryDao categoryDao;
     private GradeDao gradeDao;
+    private NoteDao noteDao;
 
+    public abstract NoteDao noteDao();
     public abstract StudyDao studyDao();
     public abstract CategoryDao categoryDao();
     public abstract GradeDao gradeDao();
