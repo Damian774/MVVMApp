@@ -16,7 +16,7 @@
             android:name=".views.SelectStudiesActivity"
             android:label="@string/title_activity_select_studies"
             android:parentActivityName=".views.HomeScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.pwsz.studentsindex.views.HomeScreenActivity" />
@@ -25,7 +25,7 @@
             android:name=".views.AddStudyActivity"
             android:label="@string/title_activity_add_study"
             android:parentActivityName=".views.SelectStudiesActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.pwsz.studentsindex.views.SelectStudiesActivity" />
@@ -38,37 +38,33 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.pwsz.studentsindex.views.ShowGradesActivity" />
         </activity>
-
         <activity
             android:name=".views.AddCategoryActivity"
             android:label="@string/title_activity_add_category"
             android:parentActivityName=".views.HomeScreenActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="pl.pwsz.studentsindex.views.HomeScreenActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.pwsz.studentsindex.views.HomeScreenActivity" />
         </activity>
         <activity
             android:name=".views.HomeScreenActivity"
             android:label="@string/title_activity_home_screen"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".views.ShowGradesActivity"
-            android:parentActivityName=".views.HomeScreenActivity"
             android:label="@string/title_grade_list"
+            android:parentActivityName=".views.HomeScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="pl.pwsz.studentsindex.views.HomeScreenActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.pwsz.studentsindex.views.HomeScreenActivity" />
         </activity>
-
         <activity
             android:name=".views.GradeDetailActivity"
             android:label="@string/title_grade_detail"
@@ -78,14 +74,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.pwsz.studentsindex.views.ShowGradesActivity" />
         </activity>
-
         <activity android:name=".views.AddNoteActivity" />
-
-
         <activity
             android:name=".views.ShowNotesActivity"
             android:label="@string/title_notes_list"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.NoteDetailActivity"
             android:label="@string/title_note_detail"
@@ -94,6 +87,21 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.pwsz.studentsindex.views.ShowNotesActivity" />
+        </activity>
+        <activity android:name=".views.AddExamActivity"
+            android:parentActivityName=".views.ShowExamsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.pwsz.studentsindex.views.ShowExamsActivity" />
+        </activity>
+
+        <activity android:name=".views.ShowExamsActivity"
+            android:parentActivityName=".views.HomeScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.pwsz.studentsindex.views.HomeScreenActivity" />
         </activity>
     </application>
 

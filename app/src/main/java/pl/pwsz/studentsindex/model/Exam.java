@@ -9,8 +9,10 @@ import android.arch.persistence.room.TypeConverters;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import pl.pwsz.studentsindex.utils.BigDecimalConverter;
+import pl.pwsz.studentsindex.utils.DateConverter;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
@@ -18,14 +20,15 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         parentColumns = "id",
         childColumns = "category_id",
         onDelete = CASCADE), indices = {
-        @Index(name = "category_id_index", value = {"category_id"})
+        @Index(name = "category_id__exam_index", value = {"category_id"})
 })
-public class Exam {
+@TypeConverters(DateConverter.class)
+public class Exam implements Serializable{
 
-        public Exam(int categoryId, BigDecimal value, BigDecimal weight, String additionalNote) {
+        public Exam(int categoryId, Date date, String type, String additionalNote) {
             this.categoryId = categoryId;
-            this.value = value;
-            this.weight = weight;
+            this.date = date;
+            this.type = type;
             this.additionalNote = additionalNote;
         }
 
@@ -37,20 +40,20 @@ public class Exam {
             this.categoryId = categoryId;
         }
 
-        public BigDecimal getValue() {
-            return value;
+        public Date getDate() {
+            return date;
         }
 
-        public void setValue(BigDecimal value) {
-            this.value = value;
+        public void setDate(Date value) {
+            this.date = date;
         }
 
-        public BigDecimal getWeight() {
-            return weight;
+        public String getType() {
+            return type;
         }
 
-        public void setWeight(BigDecimal weight) {
-            this.weight = weight;
+        public void setType(String type) {
+            this.type = type;
         }
 
         public String getAdditionalNote() {
@@ -76,14 +79,13 @@ public class Exam {
         private int categoryId;
 
         @ColumnInfo(name = "date")
-        private DateTime value;
+        private Date date;
 
         @ColumnInfo(name = "type")
-        private BigDecimal weight;
+        private String type;
 
         @ColumnInfo(name = "additional_note")
         private String additionalNote;
 
     }
 
-}

@@ -50,6 +50,14 @@
                     android:id="@+id/nav_show_notes"
                     android:icon="@drawable/ic_menu_show_notes"
                     android:title="Show notes" />
+                <item
+                    android:id="@+id/nav_add_exam"
+                    android:icon="@drawable/ic_menu_add_exam"
+                    android:title="Add exam" />
+                <item
+                    android:id="@+id/nav_show_exams"
+                    android:icon="@drawable/ic_menu_show_exams"
+                    android:title="Show exams" />
             </group>
         </menu>
     </item>

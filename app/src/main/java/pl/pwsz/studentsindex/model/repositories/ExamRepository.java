@@ -1,8 +1,14 @@
 package pl.pwsz.studentsindex.model.repositories;
 
 import android.app.Application;
+import android.arch.lifecycle.LiveData;
+import android.os.AsyncTask;
+
+import java.util.List;
 
 import pl.pwsz.studentsindex.model.AppDatabase;
+import pl.pwsz.studentsindex.model.Exam;
+import pl.pwsz.studentsindex.model.ExamDao;
 
 public class ExamRepository {
 
@@ -32,7 +38,7 @@ public class ExamRepository {
 
     }
 
-    public void deleteGrade(Exam exam){
+    public void deleteExam(Exam exam){
         new ExamRepository.deleteExamAsyncTask(examDao).execute(exam);
 
     }
@@ -79,7 +85,7 @@ public class ExamRepository {
 
         @Override
         protected Void doInBackground(final Exam... exams) {
-            asyncTaskExamDao.update(exams[0].getId(),exams[0].getCategoryId(),grades[0].getValue(),grades[0].getWeight(),grades[0].getAdditionalNote());
+            asyncTaskExamDao.update(exams[0].getId(),exams[0].getCategoryId(),exams[0].getDate(),exams[0].getType(),exams[0].getAdditionalNote());
 
             return null;
         }

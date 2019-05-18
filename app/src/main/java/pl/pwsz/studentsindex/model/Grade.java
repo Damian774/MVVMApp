@@ -20,7 +20,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         parentColumns = "id",
         childColumns = "category_id",
         onDelete = CASCADE), indices = {
-        @Index(name = "category_id_index", value = {"category_id"})
+        @Index(name = "category_id_grade_index", value = {"category_id"})
 })
 @TypeConverters(BigDecimalConverter.class)
 public class Grade implements Serializable {

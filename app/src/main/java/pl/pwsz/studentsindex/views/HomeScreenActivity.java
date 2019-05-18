@@ -111,7 +111,10 @@ public class HomeScreenActivity extends AppCompatActivity
             startActivity(new Intent(HomeScreenActivity.this, AddNoteActivity.class));
         } else if (id == R.id.nav_show_notes) {
             startActivity(new Intent(HomeScreenActivity.this, ShowNotesActivity.class));
-
+        } else if (id == R.id.nav_add_exam) {
+            startActivity(new Intent(HomeScreenActivity.this, AddExamActivity.class));
+        } else if (id == R.id.nav_show_exams){
+            startActivity(new Intent(HomeScreenActivity.this, ShowExamsActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
