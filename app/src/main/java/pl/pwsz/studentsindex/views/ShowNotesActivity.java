@@ -1,9 +1,11 @@
 package pl.pwsz.studentsindex.views;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -36,13 +38,15 @@ public class ShowNotesActivity extends AppCompatActivity {
     List<Note> noteList;
     int pickedNoteId;
     ListView listView;
+    private SharedPreferences preferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_list);
-
+        preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
+        String studyId = preferences.getString("activeStudy", "");
         listView = findViewById(R.id.list_view);
         applicationViewModel = ViewModelProviders.of(this).get(ApplicationViewModel.class);
         applicationViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {

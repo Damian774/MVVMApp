@@ -1,7 +1,9 @@
 package pl.pwsz.studentsindex.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,21 +24,13 @@ import pl.pwsz.studentsindex.R;
 
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String filename = "defaultStudyChosen";
-        String fileContents = "1";
-        FileOutputStream outputStream;
-
-        try {
-            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.write(fileContents.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
+        String studyId = preferences.getString("activeStudy", "");
 
 
 

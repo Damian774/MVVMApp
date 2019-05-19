@@ -1,9 +1,12 @@
 package pl.pwsz.studentsindex.views;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +39,9 @@ public class SelectStudiesActivity extends AppCompatActivity implements View.OnC
     FloatingActionButton fab;
     SelectStudiesActivityViewModel selectStudiesActivityViewModel;
     private int mCurrentItemPosition;
+    private static final String PREFERENCES_NAME = "myPreferences";
+    private static final String PREFERENCES_STUDY_ID = "activeStudy";
+    private SharedPreferences preferences;
 
 
     @Override
@@ -43,6 +50,8 @@ public class SelectStudiesActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        preferences = getSharedPreferences(PREFERENCES_NAME, Activity.MODE_PRIVATE);
 
         recyclerView = findViewById(R.id.recycler_view);
         adapter = new StudyAdapter(this);
@@ -109,6 +118,7 @@ public class SelectStudiesActivity extends AppCompatActivity implements View.OnC
         inflater.inflate(R.menu.menu_select_studies_activity, menu);
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         final Study selectedStudy = adapter.getStudyAtPosition(mCurrentItemPosition);
@@ -119,10 +129,16 @@ public class SelectStudiesActivity extends AppCompatActivity implements View.OnC
             startActivity(intent);
 
         }
-
+        if(id == R.id.setAsDefault){
+            SharedPreferences.Editor preferencesEditor = preferences.edit();
+            String studyId = String.valueOf(selectedStudy.getId());
+            preferencesEditor.putString(PREFERENCES_STUDY_ID, studyId);
+            preferencesEditor.commit();
+            Toast.makeText(this, "Study set as active", Toast.LENGTH_SHORT).show();
+        }
         if (id == R.id.delete) {
             AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-            builder1.setMessage("You are about to delete this entry. You will lose all subentries that are connected with this Study. This action is permanent!\nAre you sure?");
+            builder1.setMessage("You are about to delete this entry. You will lose all data connected with this Study. This action is permanent!\nAre you sure?");
             builder1.setCancelable(true);
 
             builder1.setPositiveButton(

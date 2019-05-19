@@ -1,7 +1,9 @@
 package pl.pwsz.studentsindex.views;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
@@ -19,12 +21,14 @@ import pl.pwsz.studentsindex.viewmodels.ApplicationViewModel;
 public class NoteDetailActivity extends AppCompatActivity {
 
     ApplicationViewModel applicationViewModel;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_detail);
-
+        preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
+        String studyId = preferences.getString("activeStudy", "");
         applicationViewModel = ViewModelProviders.of(this).get(ApplicationViewModel.class);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);

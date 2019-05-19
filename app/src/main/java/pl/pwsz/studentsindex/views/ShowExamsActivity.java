@@ -1,9 +1,11 @@
 package pl.pwsz.studentsindex.views;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -37,6 +39,7 @@ public class ShowExamsActivity extends AppCompatActivity {
     FloatingActionButton fab;
     AddExamActivityViewModel addExamActivityViewModel;
     private int mCurrentItemPosition;
+    private SharedPreferences preferences;
 
 
     @Override
@@ -45,7 +48,8 @@ public class ShowExamsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
+        String studyId = preferences.getString("activeStudy", "");
         recyclerView = findViewById(R.id.recycler_view);
         adapter = new ExamAdapter(this);
         recyclerView.setAdapter(adapter);

@@ -1,7 +1,9 @@
 package pl.pwsz.studentsindex.views;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -23,13 +25,15 @@ public class AddNoteActivity extends AppCompatActivity {
     Button saveGradeBTN;
     int categoryId;
     Note pickedNote;
+    private SharedPreferences preferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
-
+        preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
+        String studyId = preferences.getString("activeStudy", "");
 
         if (getIntent().getExtras() != null) {
             Intent myIntent = getIntent();

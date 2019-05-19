@@ -1,8 +1,10 @@
 package pl.pwsz.studentsindex.views;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -31,12 +33,14 @@ import pl.pwsz.studentsindex.viewmodels.ShowGradesActivityViewModel;
 public class GradeDetailActivity extends AppCompatActivity {
 
     GradeDetailActivityViewModel gradeDetailActivityViewModel;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grade_detail);
-
+        preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
+        String studyId = preferences.getString("activeStudy", "");
         gradeDetailActivityViewModel = ViewModelProviders.of(this).get(GradeDetailActivityViewModel.class);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
