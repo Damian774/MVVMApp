@@ -7,37 +7,40 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ContextMenu;
-import android.view.MenuInflater;
-import android.view.View;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
 
 import pl.pwsz.studentsindex.R;
-import pl.pwsz.studentsindex.model.Study;
+import pl.pwsz.studentsindex.adapters.CategoryAdapter;
 import pl.pwsz.studentsindex.adapters.StudyAdapter;
+import pl.pwsz.studentsindex.model.Category;
+import pl.pwsz.studentsindex.model.Grade;
+import pl.pwsz.studentsindex.model.Study;
+import pl.pwsz.studentsindex.viewmodels.AddCategoryActivityViewModel;
 import pl.pwsz.studentsindex.viewmodels.SelectStudiesActivityViewModel;
 
-public class SelectStudiesActivity extends AppCompatActivity implements View.OnCreateContextMenuListener {
+
+public class ShowCategoriesActivity extends AppCompatActivity implements View.OnCreateContextMenuListener {
 
     RecyclerView recyclerView;
-    StudyAdapter adapter;
+    CategoryAdapter adapter;
     FloatingActionButton fab;
-    SelectStudiesActivityViewModel selectStudiesActivityViewModel;
+    AddCategoryActivityViewModel addCategoryActivityViewModel;
     private int mCurrentItemPosition;
     private static final String PREFERENCES_NAME = "myPreferences";
     private static final String PREFERENCES_STUDY_ID = "activeStudy";
@@ -47,26 +50,29 @@ public class SelectStudiesActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_show_categories);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
         preferences = getSharedPreferences(PREFERENCES_NAME, Activity.MODE_PRIVATE);
 
+
+
         recyclerView = findViewById(R.id.recycler_view);
-        adapter = new StudyAdapter(this);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
+        adapter = new CategoryAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
 
 
 
-        selectStudiesActivityViewModel = ViewModelProviders.of(this).get(SelectStudiesActivityViewModel.class);
-        selectStudiesActivityViewModel.getAllStudies().observe(this, new Observer<List<Study>>() {
+        addCategoryActivityViewModel = ViewModelProviders.of(this).get(AddCategoryActivityViewModel.class);
+        addCategoryActivityViewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
             @Override
-            public void onChanged(@Nullable List<Study> studies) {
-                Collections.reverse(studies);
-                adapter.setStudies(studies);
+            public void onChanged(@Nullable List<Category> categories) {
+                adapter.setCategories(categories);
             }
         });
 
@@ -75,17 +81,18 @@ public class SelectStudiesActivity extends AppCompatActivity implements View.OnC
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SelectStudiesActivity.this, AddStudyActivity.class));
+                startActivity(new Intent(ShowCategoriesActivity.this, AddCategoryActivity.class));
             }
         });
         registerForContextMenu(recyclerView);
-        adapter.setOnLongItemClickListener(new StudyAdapter.onLongItemClickListener() {
+        adapter.setOnLongItemClickListener(new CategoryAdapter.onLongItemClickListener() {
             @Override
             public void ItemLongClicked(View v, int position) {
                 mCurrentItemPosition = position;
                 v.showContextMenu();
             }
         });
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
 
     }
@@ -103,6 +110,8 @@ public class SelectStudiesActivity extends AppCompatActivity implements View.OnC
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -110,37 +119,35 @@ public class SelectStudiesActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_select_studies_activity, menu);
+        inflater.inflate(R.menu.menu_select_categories_activity, menu);
     }
 
     @SuppressLint("ApplySharedPref")
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        final Study selectedStudy = adapter.getStudyAtPosition(mCurrentItemPosition);
+        final Category selectedCategory = adapter.getCategoryAtPosition(mCurrentItemPosition);
         int id = item.getItemId();
         if (id == R.id.edit) {
-            Intent intent = new Intent(SelectStudiesActivity.this, AddStudyActivity.class);
-            intent.putExtra("Study",selectedStudy);
+            Intent intent = new Intent(ShowCategoriesActivity.this, AddCategoryActivity.class);
+            intent.putExtra("Category",selectedCategory);
             startActivity(intent);
 
         }
-        if(id == R.id.setAsDefault){
-            SharedPreferences.Editor preferencesEditor = preferences.edit();
-            int studyId = selectedStudy.getId();
-            preferencesEditor.putInt(PREFERENCES_STUDY_ID, studyId);
-            preferencesEditor.commit();
-            Toast.makeText(this, "Study set as active", Toast.LENGTH_SHORT).show();
+        if(id == R.id.showGrades){
+            Intent intent = new Intent(ShowCategoriesActivity.this, ShowGradesActivity.class);
+            intent.putExtra("Category",selectedCategory);
+            startActivity(intent);
         }
         if (id == R.id.delete) {
             AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-            builder1.setMessage("You are about to delete this entry. You will lose all data connected with this Study. This action is permanent!\nAre you sure?");
+            builder1.setMessage("You are about to delete this category. You will lose all grades connected with this category!\nAre you sure?");
             builder1.setCancelable(true);
 
             builder1.setPositiveButton(
                     "Yes",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            selectStudiesActivityViewModel.deleteStudy(selectedStudy);
+                            addCategoryActivityViewModel.delete(selectedCategory);
                         }
                     });
 

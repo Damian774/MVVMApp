@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/buttonshape"
         android:shadowColor="#A8A8A8"
@@ -33,38 +33,20 @@
         android:text="Add exam"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_exam_note" />
+        app:layout_constraintTop_toBottomOf="@+id/date_examDate" />
 
     <EditText
         android:id="@+id/et_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="final exam"
         android:inputType="text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/grade_value_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_categories" />
-
-    <EditText
-        android:id="@+id/et_exam_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="note"
-        android:inputType="textUri|textShortMessage|text|textImeMultiLine"
-        android:maxLength="40"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_examDate" />
+        app:layout_constraintStart_toEndOf="@+id/grade_value_tv" />
 
     <TextView
         android:id="@+id/et_category_list_empty"
@@ -88,17 +70,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:clickable="true"
         android:editable="false"
         android:ems="10"
         android:focusable="false"
-        android:hint="exam date"
+        android:hint="date"
+        app:layout_constraintBaseline_toBaselineOf="@+id/exam_date_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toEndOf="@+id/exam_date_tv" />
+
+    <TextView
+        android:id="@+id/grade_value_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:text="Exam type:"
+        android:textSize="16dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_type" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_categories" />
+
+    <TextView
+        android:id="@+id/exam_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:text="Exam date:"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/grade_value_tv" />
 
 
 </android.support.constraint.ConstraintLayout>

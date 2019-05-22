@@ -29,7 +29,7 @@ public class AddStudyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_study);
         preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
-        String studyId = preferences.getString("activeStudy", "");
+        int studyId = preferences.getInt("activeStudy", 0);
 
 
         schoolNameET = findViewById(R.id.et_school_name);

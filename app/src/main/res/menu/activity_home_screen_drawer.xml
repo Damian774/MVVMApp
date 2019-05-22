@@ -17,9 +17,9 @@
             android:icon="@drawable/ic_school_black_24dp"
             android:title="Add study" />
         <item
-            android:id="@+id/nav_manage"
-
-            android:title="" />
+            android:id="@+id/nav_add_exam"
+            android:icon="@drawable/ic_menu_add_exam"
+            android:title="Add exam" />
         <item
                 android:id="@+id/nav_add_note"
                 android:icon="@drawable/ic_menu_add_note"
@@ -35,29 +35,23 @@
     <item android:title="Manage">
         <menu>
             <group>
-            <item
-                android:id="@+id/nav_show_grades"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Show grades" />
-            <item
-                android:id="@+id/nav_show_studies"
-                android:icon="@drawable/ic_menu_send"
-                android:title="My studies" />
-            <item
-                android:id="@+id/nav_settings"
-                android:title="" />
                 <item
-                    android:id="@+id/nav_show_notes"
-                    android:icon="@drawable/ic_menu_show_notes"
-                    android:title="Show notes" />
-                <item
-                    android:id="@+id/nav_add_exam"
-                    android:icon="@drawable/ic_menu_add_exam"
-                    android:title="Add exam" />
+                    android:id="@+id/nav_show_categories"
+                    android:icon="@drawable/ic_menu_show_categories"
+                    android:title="Show categories" />
                 <item
                     android:id="@+id/nav_show_exams"
                     android:icon="@drawable/ic_menu_show_exams"
                     android:title="Show exams" />
+            <item
+                android:id="@+id/nav_show_studies"
+                android:icon="@drawable/ic_menu_send"
+                android:title="My studies" />
+                <item
+                    android:id="@+id/nav_show_notes"
+                    android:icon="@drawable/ic_menu_show_notes"
+                    android:title="Show notes" />
+
             </group>
         </menu>
     </item>

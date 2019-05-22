@@ -1,14 +1,17 @@
 package pl.pwsz.studentsindex.model.repositories;
 
+import android.app.Activity;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.TypeConverters;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import pl.pwsz.studentsindex.model.AppDatabase;
+import pl.pwsz.studentsindex.model.Category;
 import pl.pwsz.studentsindex.model.Grade;
 import pl.pwsz.studentsindex.model.GradeDao;
 import pl.pwsz.studentsindex.utils.BigDecimalConverter;
@@ -20,18 +23,26 @@ public class GradeRepository {
 
     private LiveData<List<Grade>> allGrades;
 
+    private SharedPreferences preferences;
+    int studyId;
+
     public GradeRepository(Application application) {
+        preferences = application.getApplicationContext().getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
+        studyId = preferences.getInt("activeStudy", 0);
         AppDatabase db = AppDatabase.getDatabase(application);
         gradeDao = db.gradeDao();
-        allGrades = gradeDao.getAllGrades();
+        allGrades = gradeDao.getAllGrades(studyId);
     }
 
+    public LiveData<List<Grade>> getAllGradesByCategory(int categoryId) {
+        return gradeDao.getGradesByCategoryId(studyId,categoryId);
+    }
 
     public LiveData<List<Grade>> getAllGrades() {
         return allGrades;
     }
 
-    public Grade getGradeById(int gradeId){ return gradeDao.getGradeById(gradeId);} //TODO in another thread
+    public Grade getGradeById(int gradeId){ return gradeDao.getGradeById(studyId,gradeId);} //TODO in another thread
 
     public void insert(Grade grade) {
         new GradeRepository.insertGradeAsyncTask(gradeDao).execute(grade);

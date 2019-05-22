@@ -24,10 +24,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import pl.pwsz.studentsindex.R;
+import pl.pwsz.studentsindex.model.Category;
+import pl.pwsz.studentsindex.model.Exam;
 import pl.pwsz.studentsindex.model.Grade;
 import pl.pwsz.studentsindex.viewmodels.ShowGradesActivityViewModel;
 
@@ -54,6 +59,8 @@ public class ShowGradesActivity extends AppCompatActivity {
     int pickedGradeId;
     ListView listView;
     private SharedPreferences preferences;
+    int studyId;
+    Category pickedCategory;
 
 
     @Override
@@ -61,23 +68,39 @@ public class ShowGradesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grade_list);
         preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
-        String studyId = preferences.getString("activeStudy", "");
+        studyId = preferences.getInt("activeStudy", 0);
         listView = findViewById(R.id.list_view);
         showGradesActivityViewModel = ViewModelProviders.of(this).get(ShowGradesActivityViewModel.class);
-        showGradesActivityViewModel.getAllGrades().observe(this, new Observer<List<Grade>>() {
-            @Override
-            public void onChanged(@Nullable List<Grade> grades) {
-                Collections.reverse(grades);
-                gradeList = grades;
-                updateRecyclerView();
-                listView.invalidateViews();
 
-            }
-        });
+        if( getIntent().getExtras() != null){
+            Intent myIntent = getIntent();
+            pickedCategory = (Category) myIntent.getSerializableExtra("Category");
+            showGradesActivityViewModel.getAllGradesByCategory(pickedCategory.getId()).observe(this, new Observer<List<Grade>>() {
+                @Override
+                public void onChanged(@Nullable List<Grade> grades) {
+                    Collections.reverse(grades);
+                    gradeList = grades;
+                    updateRecyclerView();
+                    listView.invalidateViews();
+                }
+            });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+        }else{
+            showGradesActivityViewModel.getAllGrades().observe(this, new Observer<List<Grade>>() {
+                @Override
+                public void onChanged(@Nullable List<Grade> grades) {
+                    Collections.reverse(grades);
+                    gradeList = grades;
+                    updateRecyclerView();
+                    listView.invalidateViews();
+                }
+            });
+        }
+
+
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       // setSupportActionBar(toolbar);
+      //  toolbar.setTitle(getTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -191,8 +214,10 @@ public class ShowGradesActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(grades.get(position).getValue().toString());
-            holder.mContentView.setText(grades.get(position).getWeight().toString());
+            holder.gradeValue.setText(grades.get(position).getValue().toString());
+            holder.gradeWeight.setText(grades.get(position).getWeight().toString());
+            String category = showGradesActivityViewModel.getCategoryById(grades.get(position).getCategoryId()).getName();
+            holder.gradeCategory.setText(category);
 
             holder.itemView.setTag(grades.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
@@ -204,13 +229,16 @@ public class ShowGradesActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mIdView;
-            final TextView mContentView;
+            final TextView gradeValue;
+            final TextView gradeWeight;
+            final TextView gradeCategory;
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                gradeValue = (TextView) view.findViewById(R.id.tv_value_grade);
+                gradeWeight = (TextView) view.findViewById(R.id.tv_weight_grade);
+                gradeCategory = (TextView) view.findViewById(R.id.tv_category_grade);
+
             }
         }
     }

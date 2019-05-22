@@ -16,21 +16,21 @@ import pl.pwsz.studentsindex.utils.DateConverter;
 @Dao
 @TypeConverters(DateConverter.class)
 public interface ExamDao {
-    @Query("SELECT * FROM exams")
-    LiveData<List<Exam>> getAllExams();
+    @Query("SELECT * FROM exams WHERE study_id = :studyId")
+    LiveData<List<Exam>> getAllExams(int studyId);
 
     @Insert
     void insert(Exam exam);
 
-    @Query("SELECT * FROM exams WHERE id = :gradeId LIMIT 1")
-    Exam getExamById(int gradeId);
+    @Query("SELECT * FROM exams WHERE id = :gradeId AND study_id = :studyId LIMIT 1")
+    Exam getExamById(int studyId,int gradeId);
 
-    @Query("DELETE FROM exams")
-    void deleteAll();
+    @Query("DELETE FROM exams WHERE study_id = :studyId")
+    void deleteAll(int studyId);
 
     @Delete
     void deleteExam(Exam exam);
 
-    @Query("UPDATE exams SET  category_id=:category_id,date=:date,type=:type,additional_note=:additional_note WHERE id = :id")
-    void update(int id, int category_id, Date date, String type, String additional_note);
+    @Query("UPDATE exams SET  category_id=:category_id,date=:date,type=:type WHERE id = :id")
+    void update(int id, int category_id, Date date, String type);
 }

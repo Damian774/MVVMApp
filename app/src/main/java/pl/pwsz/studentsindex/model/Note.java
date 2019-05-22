@@ -2,14 +2,24 @@ package pl.pwsz.studentsindex.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "notes")
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
+@Entity(tableName = "notes",foreignKeys =
+        @ForeignKey( entity = Study.class,
+                parentColumns = "id",
+                childColumns = "study_id",
+                onDelete = CASCADE), indices = {
+        @Index( name = "study_id_note_index",value = {"study_id"})})
 public class Note implements Serializable {
 
-    public Note(String note) {
+    public Note(int studyId,String note) {
+        this.studyId = studyId;
         this.note = note;
     }
 
@@ -18,6 +28,9 @@ public class Note implements Serializable {
 
     @ColumnInfo(name = "note")
     private String note;
+
+    @ColumnInfo(name = "study_id")
+    private int studyId;
 
 
     public int getId() {
@@ -34,5 +47,12 @@ public class Note implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+    public int getStudyId() {
+        return studyId;
+    }
+
+    public void setStudyId(int studyId) {
+        this.studyId = studyId;
     }
 }

@@ -1,7 +1,9 @@
 package pl.pwsz.studentsindex.model.repositories;
 
+import android.app.Activity;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import java.util.List;
@@ -15,11 +17,14 @@ public class ExamRepository {
     private ExamDao examDao;
 
     private LiveData<List<Exam>> allExams;
-
+    private SharedPreferences preferences;
+    int studyId;
     public ExamRepository(Application application) {
+        preferences = application.getApplicationContext().getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
+        studyId = preferences.getInt("activeStudy", 0);
         AppDatabase db = AppDatabase.getDatabase(application);
         examDao = db.examDao();
-        allExams = examDao.getAllExams();
+        allExams = examDao.getAllExams(studyId);
     }
 
 
@@ -27,7 +32,7 @@ public class ExamRepository {
         return allExams;
     }
 
-    public Exam getExamById(int examId){ return examDao.getExamById(examId);} //TODO in another thread
+    public Exam getExamById(int examId){ return examDao.getExamById(studyId,examId);} //TODO in another thread
 
     public void insert(Exam exam) {
         new ExamRepository.insertExamAsyncTask(examDao).execute(exam);
@@ -85,7 +90,7 @@ public class ExamRepository {
 
         @Override
         protected Void doInBackground(final Exam... exams) {
-            asyncTaskExamDao.update(exams[0].getId(),exams[0].getCategoryId(),exams[0].getDate(),exams[0].getType(),exams[0].getAdditionalNote());
+            asyncTaskExamDao.update(exams[0].getId(),exams[0].getCategoryId(),exams[0].getDate(),exams[0].getType());
 
             return null;
         }

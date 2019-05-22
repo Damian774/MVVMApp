@@ -40,16 +40,16 @@ public class ShowExamsActivity extends AppCompatActivity {
     AddExamActivityViewModel addExamActivityViewModel;
     private int mCurrentItemPosition;
     private SharedPreferences preferences;
-
+    int studyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_show_exams);
+
+
         preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
-        String studyId = preferences.getString("activeStudy", "");
+        studyId = preferences.getInt("activeStudy", 0);
         recyclerView = findViewById(R.id.recycler_view);
         adapter = new ExamAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -87,7 +87,6 @@ public class ShowExamsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -99,11 +98,9 @@ public class ShowExamsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
             return true;
-        }
 
-        return super.onOptionsItemSelected(item);
+
     }
 
     @Override

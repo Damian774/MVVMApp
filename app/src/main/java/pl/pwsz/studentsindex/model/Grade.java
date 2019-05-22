@@ -16,16 +16,25 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 //category_id column references a foreign key but it is not part of an index.
 // This may trigger full table scans whenever parent table is modified so you are highly advised to create an index that covers this column.
-@Entity(tableName = "grades", foreignKeys = @ForeignKey(entity = Category.class,
-        parentColumns = "id",
-        childColumns = "category_id",
-        onDelete = CASCADE), indices = {
-        @Index(name = "category_id_grade_index", value = {"category_id"})
+@Entity(tableName = "grades", foreignKeys = {
+        @ForeignKey(entity = Category.class,
+                parentColumns = "id",
+                childColumns = "category_id",
+                onDelete = CASCADE),
+        @ForeignKey(
+                entity = Study.class,
+                parentColumns = "id",
+                childColumns = "study_id"
+        )
+}, indices = {
+        @Index(name = "category_id_grade_index", value = {"category_id"}),
+        @Index( name = "study_id_grade_index",value = {"study_id"})
 })
 @TypeConverters(BigDecimalConverter.class)
 public class Grade implements Serializable {
 
-    public Grade(int categoryId, BigDecimal value, BigDecimal weight, String additionalNote) {
+    public Grade(int studyId,int categoryId, BigDecimal value, BigDecimal weight, String additionalNote) {
+        this.studyId = studyId;
         this.categoryId = categoryId;
         this.value = value;
         this.weight = weight;
@@ -72,6 +81,13 @@ public class Grade implements Serializable {
         this.id = id;
     }
 
+    public int getStudyId() {
+        return studyId;
+    }
+
+    public void setStudyId(int studyId) {
+        this.studyId = studyId;
+    }
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -87,4 +103,6 @@ public class Grade implements Serializable {
     @ColumnInfo(name = "additional_note")
     private String additionalNote;
 
+    @ColumnInfo(name = "study_id")
+    private int studyId;
 }

@@ -33,7 +33,6 @@ public class GradeDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private Grade grade;
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -74,12 +73,14 @@ public class GradeDetailFragment extends Fragment {
         if (grade != null) {
             gradeDetailActivityViewModel.setPickedGrade(grade);
             StringBuilder detailInfo = new StringBuilder();
-            detailInfo.append("value: ")
+            detailInfo.append("Value: ")
                     .append(grade.getValue().toString())
-                    .append("\nweight: ")
+                    .append("\nWeight: ")
                     .append(grade.getWeight())
-                    .append("\ncategory: ")
-                    .append(gradeDetailActivityViewModel.getCategoryById(grade.getCategoryId()).getName());
+                    .append("\nCategory: ")
+                    .append(gradeDetailActivityViewModel.getCategoryById(grade.getCategoryId()).getName())
+                    .append("\nNote: ")
+                    .append(grade.getAdditionalNote());
             ((TextView) rootView.findViewById(R.id.grade_detail)).setText(detailInfo);
         }
 

@@ -19,6 +19,7 @@ public class StudyRepository {
 
 
         public StudyRepository(Application application) {
+
             AppDatabase db = AppDatabase.getDatabase(application);
             studyDao = db.studyDao();
             allStudies = studyDao.getAllStudies();

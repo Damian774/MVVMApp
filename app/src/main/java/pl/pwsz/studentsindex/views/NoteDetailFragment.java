@@ -37,7 +37,7 @@ public class NoteDetailFragment extends Fragment {
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(getString(R.string.grade_details_bar_title));
+                appBarLayout.setTitle(getString(R.string.title_note_detail));
             }
         }
     }
@@ -56,9 +56,10 @@ public class NoteDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.note_detail, container, false);
         loadData();
         if (note != null) {
+
             applicationViewModel.setPickedNote(note);
             String detailInfo = note.getNote();
-            ((TextView) rootView.findViewById(R.id.grade_detail)).setText(detailInfo);
+            ((TextView) rootView.findViewById(R.id.note_detail)).setText(detailInfo);
         }
 
         return rootView;

@@ -42,71 +42,96 @@
 
     <EditText
         android:id="@+id/et_grade_value"
-        android:layout_width="wrap_content"
+        android:layout_width="194dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="56dp"
         android:ems="10"
         android:hint="4.5"
         android:inputType="numberDecimal"
+        app:layout_constraintBaseline_toBaselineOf="@+id/grade_value_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_categories" />
+        app:layout_constraintStart_toEndOf="@+id/grade_value_tv" />
 
     <EditText
         android:id="@+id/et_grade_weight"
-        android:layout_width="wrap_content"
+        android:layout_width="192dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="70dp"
         android:ems="10"
         android:hint="3"
         android:inputType="numberSigned"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_grade_value" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/grade_weight_tv"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/et_grade_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="175dp"
+        android:layout_height="53dp"
+        android:layout_marginEnd="56dp"
         android:ems="10"
-        android:hint="note"
+        android:hint="@string/title_note_detail"
         android:inputType="textUri|textShortMessage|text|textImeMultiLine"
         android:maxLength="40"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_grade_note"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_grade_weight" />
+        app:layout_constraintStart_toEndOf="@+id/tv_grade_note" />
 
     <TextView
         android:id="@+id/et_category_list_empty"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
         android:text="Add category first"
         android:textAlignment="center"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="30sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/grade_value_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:text="Grade value:"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/et_grade_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_categories" />
+
+    <TextView
+        android:id="@+id/grade_weight_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
+        android:text="Grade weight:"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/et_grade_weight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/grade_value_tv" />
+
+    <TextView
+        android:id="@+id/tv_grade_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:text="Note:"
+        app:layout_constraintEnd_toStartOf="@+id/et_grade_note"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/grade_weight_tv" />
 
 
 </android.support.constraint.ConstraintLayout>

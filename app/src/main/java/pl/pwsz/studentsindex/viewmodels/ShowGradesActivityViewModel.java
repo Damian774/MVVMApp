@@ -17,6 +17,8 @@ public class ShowGradesActivityViewModel extends AndroidViewModel {
 
     private LiveData<List<Grade>> allGrades;
 
+    private LiveData<List<Grade>> allGradesByCategory;
+
     private CategoryRepository categoryRepository;
 
     private LiveData<List<Category>> allCategories;
@@ -35,6 +37,7 @@ public class ShowGradesActivityViewModel extends AndroidViewModel {
 
     public Grade getGradeById(int gradeId){ return gradeRepository.getGradeById(gradeId);}
 
+    public LiveData<List<Grade>> getAllGradesByCategory(int categoryId){ return gradeRepository.getAllGradesByCategory(categoryId);}
     public LiveData<List<Grade>> getAllGrades() {
         return allGrades;
     }
@@ -48,6 +51,8 @@ public class ShowGradesActivityViewModel extends AndroidViewModel {
     }
 
     public void insert(Category category) { categoryRepository.insert(category);}
+
+    public Category getCategoryById(int categoryId){return categoryRepository.getCategoryById(categoryId);}
 
     public Category getCategoryByName(String categoryName){return categoryRepository.getCategoryByName(categoryName);}
 

@@ -26,24 +26,27 @@ public class AddNoteActivity extends AppCompatActivity {
     int categoryId;
     Note pickedNote;
     private SharedPreferences preferences;
-
+    int studyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
         preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
-        String studyId = preferences.getString("activeStudy", "");
+        studyId = preferences.getInt("activeStudy", 0);
+        gradeNoteET = findViewById(R.id.et_grade_note);
 
         if (getIntent().getExtras() != null) {
             Intent myIntent = getIntent();
             pickedNote = (Note) myIntent.getSerializableExtra("Note");
+            if(pickedNote!=null){
+                gradeNoteET.setText(pickedNote.getNote());
+            }
         }
 
 
         applicationViewModel = ViewModelProviders.of(this).get(ApplicationViewModel.class);
 
-        gradeNoteET = findViewById(R.id.et_grade_note);
         saveGradeBTN = findViewById(R.id.btn_save_grade);
         saveGradeBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +58,7 @@ public class AddNoteActivity extends AppCompatActivity {
                     pickedNote.setNote(note);
                     applicationViewModel.update(pickedNote);
                 } else {
-                    Note noteObj = new Note(note);
+                    Note noteObj = new Note(studyId,note);
                     applicationViewModel.insert(noteObj);
                 }
 

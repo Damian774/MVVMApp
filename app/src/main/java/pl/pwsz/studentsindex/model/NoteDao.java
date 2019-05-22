@@ -11,17 +11,17 @@ import java.util.List;
 @Dao
 public interface NoteDao {
 
-    @Query("SELECT * FROM notes")
-    LiveData<List<Note>> getAllNotes();
+    @Query("SELECT * FROM notes WHERE study_id = :studyId")
+    LiveData<List<Note>> getAllNotes(int studyId);
 
     @Insert
     void insert(Note note);
 
-    @Query("SELECT * FROM notes WHERE id = :noteId LIMIT 1")
-    Note getNoteById(int noteId);
+    @Query("SELECT * FROM notes WHERE id = :noteId AND study_id = :studyId LIMIT 1")
+    Note getNoteById(int studyId,int noteId);
 
-    @Query("DELETE FROM notes")
-    void deleteAll();
+    @Query("DELETE FROM notes WHERE study_id = :studyId")
+    void deleteAll(int studyId);
 
     @Delete
     void deleteNote(Note note);

@@ -39,14 +39,14 @@ public class ShowNotesActivity extends AppCompatActivity {
     int pickedNoteId;
     ListView listView;
     private SharedPreferences preferences;
-
+    int studyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_list);
         preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
-        String studyId = preferences.getString("activeStudy", "");
+        studyId = preferences.getInt("activeStudy", 0);
         listView = findViewById(R.id.list_view);
         applicationViewModel = ViewModelProviders.of(this).get(ApplicationViewModel.class);
         applicationViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
@@ -60,9 +60,9 @@ public class ShowNotesActivity extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       // setSupportActionBar(toolbar);
+       // toolbar.setTitle(getTitle());
 
 
 
@@ -164,7 +164,6 @@ public class ShowNotesActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
-            holder.mIdView.setText(String.valueOf(position));
             holder.mContentView.setText(notes.get(position).getNote());
 
             holder.itemView.setTag(notes.get(position));
@@ -177,12 +176,10 @@ public class ShowNotesActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mIdView;
             final TextView mContentView;
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (TextView) view.findViewById(R.id.content);
             }
         }

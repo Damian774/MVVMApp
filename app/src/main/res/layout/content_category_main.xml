@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".views.ShowExamsActivity"
-    tools:showIn="@layout/activity_show_exams">
+    tools:showIn="@layout/activity_show_categories">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"

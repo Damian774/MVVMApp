@@ -42,14 +42,14 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
     Grade pickedGrade;
     TextView categoryListEmptyTV;
     private SharedPreferences preferences;
-
+    int studyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_grade);
         preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
-        String studyId = preferences.getString("activeStudy", "");
+        studyId = preferences.getInt("activeStudy", 0);
 
          spinner = findViewById(R.id.spinner_categories);
 
@@ -87,7 +87,7 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
                                                         pickedGrade.setAdditionalNote(note);
                                                         addGradeActivityViewModel.update(pickedGrade);
                                                     }else{
-                                                        Grade grade = new Grade(categoryId, value, weight, note);
+                                                        Grade grade = new Grade(studyId,categoryId, value, weight, note);
                                                         addGradeActivityViewModel.insert(grade);
                                                     }
 

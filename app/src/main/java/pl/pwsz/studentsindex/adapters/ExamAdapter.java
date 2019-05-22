@@ -1,6 +1,5 @@
 package pl.pwsz.studentsindex.adapters;
 
-import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
@@ -10,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import pl.pwsz.studentsindex.R;
 import pl.pwsz.studentsindex.model.Exam;
@@ -25,7 +27,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ViewHolder> {
 
     public ExamAdapter(Context context){
         inflater = LayoutInflater.from(context);
-        AddExamActivityViewModel addExamActivityViewModel = ViewModelProviders.of((FragmentActivity) context).get(AddExamActivityViewModel.class);;
+         addExamActivityViewModel = ViewModelProviders.of((FragmentActivity) context).get(AddExamActivityViewModel.class);;
     }
     public void setOnLongItemClickListener(ExamAdapter.onLongItemClickListener onLongItemClickListener) {
         mOnLongItemClickListener = onLongItemClickListener;
@@ -49,9 +51,12 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ExamAdapter.ViewHolder holder, final int position) {
         if (exams != null) {
-//            holder.category.setText(addExamActivityViewModel.getCategoryById(exams.get(position).getCategoryId()).getName());
+            String category = addExamActivityViewModel.getCategoryById(exams.get(position).getCategoryId()).getName();
+            holder.category.setText(category);
             holder.type.setText(exams.get(position).getType());
-            holder.date.setText(exams.get(position).getDate().toString());
+            Format formatter = new SimpleDateFormat("MM/dd/yy",Locale.getDefault());
+            String dateString = formatter.format(exams.get(position).getDate());
+            holder.date.setText(dateString);
         } else {
             holder.category.setText("No exams added");
         }

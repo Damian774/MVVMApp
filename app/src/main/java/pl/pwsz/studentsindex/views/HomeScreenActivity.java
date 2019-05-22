@@ -25,12 +25,12 @@ import pl.pwsz.studentsindex.R;
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private SharedPreferences preferences;
-
+    int studyId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
-        String studyId = preferences.getString("activeStudy", "");
+        studyId = preferences.getInt("activeStudy", 0);
 
 
 
@@ -62,7 +62,6 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home_screen, menu);
         return true;
     }
 
@@ -73,12 +72,9 @@ public class HomeScreenActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
+
+        return true;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -94,11 +90,6 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_add_study) {
             startActivity(new Intent(HomeScreenActivity.this, AddStudyActivity.class));
 
-        } else if (id == R.id.nav_show_grades) {
-            startActivity(new Intent(HomeScreenActivity.this, ShowGradesActivity.class));
-
-        } else if (id == R.id.nav_settings) {
-
         } else if (id == R.id.nav_show_studies) {
             startActivity(new Intent(HomeScreenActivity.this, SelectStudiesActivity.class));
         } else if (id == R.id.nav_add_note) {
@@ -109,6 +100,8 @@ public class HomeScreenActivity extends AppCompatActivity
             startActivity(new Intent(HomeScreenActivity.this, AddExamActivity.class));
         } else if (id == R.id.nav_show_exams){
             startActivity(new Intent(HomeScreenActivity.this, ShowExamsActivity.class));
+        } else if (id == R.id.nav_show_categories){
+            startActivity(new Intent(HomeScreenActivity.this, ShowCategoriesActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

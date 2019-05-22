@@ -16,20 +16,24 @@ import pl.pwsz.studentsindex.utils.DateConverter;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(tableName = "exams", foreignKeys = @ForeignKey(entity = Category.class,
+@Entity(tableName = "exams", foreignKeys = {@ForeignKey(entity = Category.class,
         parentColumns = "id",
         childColumns = "category_id",
-        onDelete = CASCADE), indices = {
-        @Index(name = "category_id__exam_index", value = {"category_id"})
-})
+        onDelete = CASCADE),
+        @ForeignKey( entity = Study.class,
+                parentColumns = "id",
+                childColumns = "study_id",
+                onDelete = CASCADE)}, indices = {
+        @Index(name = "category_id_exam_index", value = {"category_id"}),
+                @Index( name = "study_id_exam_index",value = {"study_id"})})
 @TypeConverters(DateConverter.class)
 public class Exam implements Serializable{
 
-        public Exam(int categoryId, Date date, String type, String additionalNote) {
+        public Exam(int studyId, int categoryId, Date date, String type) {
+            this.studyId = studyId;
             this.categoryId = categoryId;
             this.date = date;
             this.type = type;
-            this.additionalNote = additionalNote;
         }
 
         public int getCategoryId() {
@@ -56,13 +60,8 @@ public class Exam implements Serializable{
             this.type = type;
         }
 
-        public String getAdditionalNote() {
-            return additionalNote;
-        }
 
-        public void setAdditionalNote(String additionalNote) {
-            this.additionalNote = additionalNote;
-        }
+
 
         public int getId() {
             return id;
@@ -71,6 +70,14 @@ public class Exam implements Serializable{
         public void setId(int id) {
             this.id = id;
         }
+
+    public int getStudyId() {
+        return studyId;
+    }
+
+    public void setStudyId(int studyId) {
+        this.studyId = studyId;
+    }
 
         @PrimaryKey(autoGenerate = true)
         private int id;
@@ -84,8 +91,8 @@ public class Exam implements Serializable{
         @ColumnInfo(name = "type")
         private String type;
 
-        @ColumnInfo(name = "additional_note")
-        private String additionalNote;
+    @ColumnInfo(name = "study_id")
+    private int studyId;
 
     }
 

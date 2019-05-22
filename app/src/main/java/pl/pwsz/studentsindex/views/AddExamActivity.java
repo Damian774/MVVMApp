@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,27 +45,25 @@ public class AddExamActivity extends AppCompatActivity implements AdapterView.On
     EditText dateET;
     Button button;
     AddExamActivityViewModel addExamActivityViewModel;
-    Exam pickedExam;
     static ArrayAdapter<String> adapter;
     Spinner spinner;
     int categoryId;
     String categoryPicked;
-    EditText noteET;
     Calendar myCalendar;
     TextView categoryListEmptyTV;
     private SharedPreferences preferences;
+    int studyId;
+    Exam pickedExam;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_exam);
         preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
-        String studyId = preferences.getString("activeStudy", "");
+        studyId = preferences.getInt("activeStudy", 0);
         spinner = findViewById(R.id.spinner_categories);
-        categoryET = findViewById(R.id.et_school_name);
         typeET = findViewById(R.id.et_type);
         dateET = findViewById(R.id.date_examDate);
-        noteET = findViewById(R.id.et_exam_note);
         button = findViewById(R.id.btn_save_exam);
         categoryListEmptyTV = findViewById(R.id.et_category_list_empty);
 
@@ -126,7 +125,6 @@ public class AddExamActivity extends AppCompatActivity implements AdapterView.On
                     }
                     pickedExam.setDate(date);
                     pickedExam.setType(typeET.getText().toString());
-                    pickedExam.setAdditionalNote(noteET.getText().toString());
                     addExamActivityViewModel.update(pickedExam);
                 }else {
                     DateFormat format = new SimpleDateFormat("MM/dd/yy", Locale.getDefault());
@@ -136,7 +134,7 @@ public class AddExamActivity extends AppCompatActivity implements AdapterView.On
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    Exam exam = new Exam(categoryId,date, typeET.getText().toString(),noteET.getText().toString());
+                    Exam exam = new Exam(studyId,categoryId,date, typeET.getText().toString());
                     addExamActivityViewModel.insert(exam);
 
                 }
@@ -170,9 +168,19 @@ public class AddExamActivity extends AppCompatActivity implements AdapterView.On
             }
             pickedExam.setDate(date1);
             pickedExam.setType(typeET.getText().toString());
-            pickedExam.setAdditionalNote(noteET.getText().toString());
             addExamActivityViewModel.update(pickedExam);
 
+        }
+        if( getIntent().getExtras() != null){
+            Intent myIntent = getIntent();
+            pickedExam = (Exam) myIntent.getSerializableExtra("Exam");
+            if(pickedExam!=null){
+                typeET.setText(pickedExam.getType());
+                Format formatter = new SimpleDateFormat("MM/dd/yy", Locale.getDefault());
+                String dateString = formatter.format(pickedExam.getDate());
+                dateET.setText(dateString);
+                spinner.setSelection(adapter.getPosition(addExamActivityViewModel.getCategoryById(pickedExam.getCategoryId()).getName()));
+            }
         }
     }
 
@@ -191,7 +199,6 @@ public class AddExamActivity extends AppCompatActivity implements AdapterView.On
         if (categories!=null && categories.size()>0) {
             spinner.setVisibility(View.VISIBLE);
             typeET.setVisibility(View.VISIBLE);
-            noteET.setVisibility(View.VISIBLE);
             dateET.setVisibility(View.VISIBLE);
             categoryListEmptyTV.setVisibility(View.GONE);
 
@@ -202,7 +209,6 @@ public class AddExamActivity extends AppCompatActivity implements AdapterView.On
         }else{
             spinner.setVisibility(View.INVISIBLE);
             typeET.setVisibility(View.INVISIBLE);
-            noteET.setVisibility(View.INVISIBLE);
             dateET.setVisibility(View.INVISIBLE);
             categoryListEmptyTV.setVisibility(View.VISIBLE);
         }

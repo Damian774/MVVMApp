@@ -1,7 +1,9 @@
 package pl.pwsz.studentsindex.model.repositories;
 
+import android.app.Activity;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.content.SharedPreferences;
 
 import java.util.List;
 
@@ -16,11 +18,14 @@ public class NoteRepository {
     private NoteDao noteDao;
 
     private LiveData<List<Note>> allNotes;
-
+    private SharedPreferences preferences;
+    int studyId;
     public NoteRepository(Application application) {
+        preferences = application.getApplicationContext().getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
+        studyId = preferences.getInt("activeStudy", 0);
         AppDatabase db = AppDatabase.getDatabase(application);
         noteDao = db.noteDao();
-        allNotes = noteDao.getAllNotes();
+        allNotes = noteDao.getAllNotes(studyId);
     }
 
 
@@ -29,7 +34,7 @@ public class NoteRepository {
     }
 
     public Note getNoteById(int noteId) {
-        return noteDao.getNoteById(noteId);
+        return noteDao.getNoteById(studyId,noteId);
     }
 
     public void insert(Note note) {

@@ -27,4 +27,8 @@ public class AddCategoryActivityViewModel extends AndroidViewModel {
     }
 
     public void insert(Category category) { categoryRepository.insert(category);}
+
+        public void delete(Category category) { categoryRepository.delete(category); }
+
+        public void update(Category category){categoryRepository.update(category);}
 }
