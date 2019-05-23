@@ -25,6 +25,9 @@ public class StudyRepository {
             allStudies = studyDao.getAllStudies();
         }
 
+    public Study getStudyById(int studyId){
+        return studyDao.getStudyById(studyId);
+    }
         public LiveData<List<Study>> getAllStudies() {
             return allStudies;
         }

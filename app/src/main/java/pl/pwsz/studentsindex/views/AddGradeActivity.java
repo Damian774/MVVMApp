@@ -93,7 +93,7 @@ public class AddGradeActivity extends AppCompatActivity implements AdapterView.O
 
 
 
-                                                startActivity(new Intent(AddGradeActivity.this, ShowGradesActivity.class));
+                                                startActivity(new Intent(AddGradeActivity.this, HomeScreenActivity.class));
 
 
                                             }

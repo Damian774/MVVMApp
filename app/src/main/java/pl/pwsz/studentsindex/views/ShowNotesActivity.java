@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,7 @@ public class ShowNotesActivity extends AppCompatActivity {
     int pickedNoteId;
     ListView listView;
     private SharedPreferences preferences;
+    FloatingActionButton fab;
     int studyId;
 
     @Override
@@ -48,6 +50,13 @@ public class ShowNotesActivity extends AppCompatActivity {
         preferences = getSharedPreferences("myPreferences", Activity.MODE_PRIVATE);
         studyId = preferences.getInt("activeStudy", 0);
         listView = findViewById(R.id.list_view);
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ShowNotesActivity.this, AddNoteActivity.class));
+            }
+        });
         applicationViewModel = ViewModelProviders.of(this).get(ApplicationViewModel.class);
         applicationViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
             @Override

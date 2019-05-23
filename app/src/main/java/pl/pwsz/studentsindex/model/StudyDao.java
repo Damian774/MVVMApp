@@ -20,6 +20,9 @@ public interface StudyDao {
     @Query("DELETE FROM studies")
     void deleteAll();
 
+    @Query("SELECT * FROM studies WHERE id=:studyId LIMIT 1")
+    Study getStudyById(int studyId);
+
     @Update
     void update(Study study);
 
